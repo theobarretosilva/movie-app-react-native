@@ -2,12 +2,15 @@ import { StatusBar } from "expo-status-bar";
 import { View, SafeAreaView, Platform, Text, TouchableOpacity, ScrollView } from "react-native";
 import { Bars3CenterLeftIcon, MagnifyingGlassIcon } from 'react-native-heroicons/outline'
 import tw from 'twrnc'
-import React from "react";
+import React, { useState } from "react";
 import { styles } from '../theme'
+import TrendingMovies from "../components/trendingMovies";
 
 const ios = Platform.OS == 'ios';
 
 export default function HomeScreen() {
+    const [trending, setTrending] = useState([1, 2, 3]);
+
     return(
         <View style={tw`flex-1 bg-neutral-800 pt-12`}>
             <SafeAreaView style={ios ? tw`-mb-2` : tw`mb-3`}>
@@ -21,7 +24,7 @@ export default function HomeScreen() {
                 </View>
             </SafeAreaView>
             <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={{paddingBottom: 10}}>
-                
+                <TrendingMovies data={trending} />
             </ScrollView>
         </View>
     )
