@@ -5,11 +5,14 @@ import tw from 'twrnc'
 import React, { useState } from "react";
 import { styles } from '../theme'
 import TrendingMovies from "../components/trendingMovies";
+import MovieList from "../components/movieList";
 
 const ios = Platform.OS == 'ios';
 
 export default function HomeScreen() {
     const [trending, setTrending] = useState([1, 2, 3]);
+    const [upcoming, setUpcoming] = useState([1, 2, 3]);
+    const [topRated, setTopRated] = useState([1, 2, 3]);
 
     return(
         <View style={tw`flex-1 bg-neutral-800 pt-12`}>
@@ -25,6 +28,7 @@ export default function HomeScreen() {
             </SafeAreaView>
             <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={{paddingBottom: 10}}>
                 <TrendingMovies data={trending} />
+                <MovieList title="Upcoming" data={upcoming} />
             </ScrollView>
         </View>
     )
