@@ -13,7 +13,7 @@ export default function TrendingMovies({data}) {
     
     return(
         <View style={tw`mb-8`}>
-            <Text style={tw`text-white text-xl mx-4 mb-5`}>TrendingMovies</Text>
+            <Text style={tw`text-white text-xl mx-4 mb-5`}>Trending Movies</Text>
             <Carousel
                 data={data}
                 renderItem={({item}) => <MovieCard item={item} handleClick={() => handleClick(item)} />}

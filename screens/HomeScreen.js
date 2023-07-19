@@ -19,7 +19,7 @@ export default function HomeScreen() {
             <SafeAreaView style={ios ? tw`-mb-2` : tw`mb-3`}>
                 <StatusBar style="light" />
                 <View style={tw`flex-row justify-between items-center mx-4`}>
-                    <Bars3CenterLeftIcon size="30" stroke={2} color="white" />
+                    <Bars3CenterLeftIcon size="30" strokeWidth={2} color="white" />
                     <Text style={tw`text-white text-3xl font-bold`}><Text style={styles.text}>M</Text>ovies</Text>
                     <TouchableOpacity>
                         <MagnifyingGlassIcon size="30" strokeWidth={2} color="white" />
