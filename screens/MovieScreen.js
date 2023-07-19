@@ -4,6 +4,7 @@ import { ScrollView, View, SafeAreaView, TouchableOpacity, Dimensions, Text, Ima
 import { ChevronLeftIcon } from 'react-native-heroicons/outline'
 import { HeartIcon } from 'react-native-heroicons/solid'
 import { LinearGradient } from 'expo-linear-gradient';
+import MovieList from '../components/movieList'
 import tw from 'twrnc'
 import Cast from '../components/cast';
 
@@ -15,6 +16,7 @@ export default function MovieScreen() {
   const [isFavourite, toggleFavourite] = useState(false);
   const navigation = useNavigation();
   const [cast, setCast] = useState([1,2,3,4,5]);
+  const [similarMovies, setSimilarMovies] = useState([1,2,3,4,5]);
 
   useEffect(() => {
 
@@ -54,7 +56,8 @@ export default function MovieScreen() {
             Super-Hero partners Scott Lang and Hope van Dyne, along with with Hope's parents Janet van Dyne and Hank Pym, and Scott's daughter Cassie Lang, find themselves exploring the Quantum Realm, interacting with strange new creatures and embarking on an adventure that will push them beyond the limits of what they thought possible.
           </Text>
         </View>
-        <Cast cast={cast} />
+        <Cast navigation={navigation} cast={cast} />
+        <MovieList title="Similar Movies" hideSeeAll={true} data={similarMovies} />
       </ScrollView>
     </View>
   )
