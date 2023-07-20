@@ -21,21 +21,18 @@ export default function HomeScreen() {
 
     const getTrendingMovies = async () => {
         const data = await fetchTrendingMovies();
-        // console.log("got trending movies: ", data);
         if(data && data.results) setTrending(data.results)
         setLoading(false)
     }
 
     const getUpComingMovies = async () => {
         const data = await fetchUpcomingMovies();
-        // console.log("got up coming movies: ", data);
         if(data && data.results) setUpcoming(data.results)
         setLoading(false)
     }
 
     const getTopRatedMovies = async () => {
         const data = await fetchTopRatedMovies();
-        // console.log("got top rated movies: ", data);
         if(data && data.results) setTopRated(data.results)
         setLoading(false)
     }

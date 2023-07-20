@@ -7,30 +7,35 @@ import { HeartIcon } from 'react-native-heroicons/solid';
 import tw from 'twrnc'
 import MovieList from '../components/movieList';
 import Loading from '../components/loading';
-import { fetchPersonDetails } from '../api/moviedb';
+import { fallbackPersonImage, fetchPersonDetails, fetchPersonMovies, image342 } from '../api/moviedb';
 
 var {width, height} = Dimensions.get('window');
 
 export default function PersonScreen() {
-  const {params: person} = useRoute();
+  const {params: item} = useRoute();
   const navigation = useNavigation();
   const [isFavourite, toggleFavourite] = useState(false);
   const [personMovies, setPersonMovies] = useState([]);
+  const [person, setPerson] = useState({});
   const [loading, setLoading] = useState(false);
 
   const getPersonDetails = async (id) => {
     const data = await fetchPersonDetails(id);
+    if(data) setPerson(data);
+    setLoading(false);
 
   }
   const getPersonMovies = async (id) => {
-    
+    const data = await fetchPersonMovies(id);
+    if(data && data.cast) setPersonMovies(data.cast)
+    setLoading(false);
   }
 
   useEffect(() => {
     setLoading(true);
-    getPersonDetails(person.id);
-    getPersonMovies(person.id)
-  },[person])
+    getPersonDetails(item.id);
+    getPersonMovies(item.id)
+  },[item])
 
   return(
     <View style={tw`flex-1 bg-neutral-900 `}>
@@ -50,42 +55,44 @@ export default function PersonScreen() {
             <View>
               <View style={{display: "flex", flexDirection: "row", justifyContent: "center", shadowColor: 'gray', shadowRadius: 40, shadowOffset: {width: 0, height: 5}, shadowOpacity: 1}}>
                 <View style={tw`items-center rounded-full overflow-hidden h-72 w-72 border-2 border-neutral-500`}>
-                  <Image source={require('../assets/images/castImage2.png')} style={{height: height*0.43, width: width*0.74}} />
+                  <Image source={{uri: image342(person?.profile_path) || fallbackPersonImage}} style={{height: height*0.43, width: width*0.74}} />
                 </View>
               </View>
               <View style={tw`mt-6`}>
                 <Text style={tw`text-3xl text-white font-bold text-center`}>
-                  Keanu Reevs
+                  {person?.name}
                 </Text>
                 <Text style={tw`text-base text-neutral-500 text-center`}>
-                  London, United Kingdom
+                  {person?.place_of_birth}
                 </Text>
               </View>
               <View style={tw`mx-3 p-4 mt-6 flex-row justify-between items-center bg-neutral-700 rounded-full`}>
                 <View style={tw`border-r-2 border-r-neutral-400 px-2 items-center`}>
                   <Text style={tw`text-white font-semibold`}>Gender</Text>
-                  <Text style={tw`text-neutral-300 text-sm`}>Male</Text>
+                  <Text style={tw`text-neutral-300 text-sm`}>
+                    {person?.gender==1 ? 'Female' : 'Male'}
+                  </Text>
                 </View>
                 <View style={tw`border-r-2 border-r-neutral-400 px-2 items-center`}>
                   <Text style={tw`text-white font-semibold`}>Birthday</Text>
-                  <Text style={tw`text-neutral-300 text-sm`}>1964-06-02</Text>
+                  <Text style={tw`text-neutral-300 text-sm`}>{person?.birthday}</Text>
                 </View>
                 <View style={tw`border-r-2 border-r-neutral-400 px-2 items-center`}>
-                  <Text style={tw`text-white font-semibold`}>Know for</Text>
-                  <Text style={tw`text-neutral-300 text-sm`}>Acting</Text>
+                  <Text style={tw`text-white font-semibold`}>Known for</Text>
+                  <Text style={tw`text-neutral-300 text-sm`}>{person?.known_for_department}</Text>
                 </View>
                 <View style={tw`px-2 items-center`}>
                   <Text style={tw`text-white font-semibold`}>Popularity</Text>
-                  <Text style={tw`text-neutral-300 text-sm`}>64.23</Text>
+                  <Text style={tw`text-neutral-300 text-sm`}>{person?.popularity?.toFixed(2)} %</Text>
                 </View>
               </View>
-              <View style={tw`my-6 mx-4 space-y-2`}>
+              <View style={tw`my-6 mx-4`}>
                 <Text style={tw`text-white text-lg`}>Biography</Text>
                 <Text style={tw`text-neutral-400`}>
-                  Keanu Charles Reeves is a Canadian actor. Reeves is known for his roles in Bill & Ted's Excellent Adventure, Speed, Point Break, and The Matrix franchise as Neo. He has collaborated with major directors such as Stephen Frears (in the 1988 period drama Dangerous Liaisons); Gus Van Sant (in the 1991 independent film My Own Private Idaho); and Bernardo Bertolucci (in the 1993 film Little Buddha). Referring to his 1991 film releases, The New York Times' critic, Janet Maslin, praised Reeves' versatility, saying that he "displays considerable discipline and range. He moves easily between the buttoned-down demeanor that suits a police procedural story and the loose-jointed manner of his comic roles." A repeated theme in roles he has portrayed is that of saving the world, including the characters of Ted Logan, Buddha, Neo, Johnny Mnemonic, John Constantine and Klaatu.
+                  {person?.biography || 'N/A'}
                 </Text>
               </View>
-              {/* <MovieList title="Movies" hideSeeAll={true} data={personMovies} /> */}
+              <MovieList title="Movies" hideSeeAll={true} data={personMovies} />
             </View>
           )
         }

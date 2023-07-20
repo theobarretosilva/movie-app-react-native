@@ -148,7 +148,7 @@ export const fetchPersonMovies = async (id) => {
     };
 
     try {
-        const response = await axios(fetchPersonMovies(id), options)
+        const response = await axios(personMoviesEndpoint(id), options)
         return response.data;
     } catch (error) {
         console.log('error: ', error);

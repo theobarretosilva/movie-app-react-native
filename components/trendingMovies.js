@@ -29,7 +29,6 @@ export default function TrendingMovies({data}) {
 }
 
 const MovieCard = ({item, handleClick}) => {
-    console.log('item.poster_path: ', item.poster_path);
     return(
         <TouchableWithoutFeedback onPress={handleClick}>
             <Image source={{uri: image500(item.poster_path)}} style={{width: 235, height: 370, borderRadius: 24}} />
