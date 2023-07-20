@@ -2,6 +2,7 @@ import { Dimensions, Image, Text, TouchableWithoutFeedback, View } from "react-n
 import tw from 'twrnc'
 import Carousel from "react-native-snap-carousel";
 import { useNavigation } from "@react-navigation/native";
+import { image500 } from "../api/moviedb";
 
 var {width, heigth} = Dimensions.get('window');
 
@@ -28,9 +29,10 @@ export default function TrendingMovies({data}) {
 }
 
 const MovieCard = ({item, handleClick}) => {
+    console.log('item.poster_path: ', item.poster_path);
     return(
         <TouchableWithoutFeedback onPress={handleClick}>
-            <Image source={require('../assets/images/moviePoster1.png')} style={{width: 235, height: 370, borderRadius: 24}} />
+            <Image source={{uri: image500(item.poster_path)}} style={{width: 235, height: 370, borderRadius: 24}} />
         </TouchableWithoutFeedback>
     )
 }

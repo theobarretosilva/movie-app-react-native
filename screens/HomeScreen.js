@@ -16,12 +16,14 @@ export default function HomeScreen() {
     const [trending, setTrending] = useState([1, 2, 3]);
     const [upcoming, setUpcoming] = useState([1, 2, 3]);
     const [topRated, setTopRated] = useState([1, 2, 3]);
-    const [loading, setLoading] = useState(false);
+    const [loading, setLoading] = useState(true);
     const navigation = useNavigation();
 
     const getTrendingMovies = async () => {
         const data = await fetchTrendingMovies();
-        console.log("got trending movies: ", data)
+        console.log("got trending movies: ", data);
+        if(data && data.results) setTrending(data.results)
+        setLoading(false)
     }
 
     useEffect(() => {
@@ -45,13 +47,12 @@ export default function HomeScreen() {
                     <Loading />
                 ):(
                     <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={{paddingBottom: 10}}>
-                        <TrendingMovies data={trending} />
+                        { trending.length>0 && <TrendingMovies data={trending} /> }
                         <MovieList title="Upcoming" data={upcoming} />
                         <MovieList title="Top Rated" data={topRated} />
                     </ScrollView>
                 )
             }
-            
         </View>
     )
 }
