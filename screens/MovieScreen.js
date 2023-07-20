@@ -8,26 +8,42 @@ import MovieList from '../components/movieList'
 import tw from 'twrnc'
 import Cast from '../components/cast';
 import Loading from '../components/loading';
-import { fetchMovieDetails } from '../api/moviedb';
+import { fallbackMoviePoster, fetchMovieCredits, fetchMovieDetails, fetchSimilarMovies, image500 } from '../api/moviedb';
 
 var {width, height} = Dimensions.get('window');
 
 export default function MovieScreen() {
-  let movieName = 'Ant-Man and the Wasp: Quantumia';
   const {params: item} = useRoute();
   const [isFavourite, toggleFavourite] = useState(false);
   const navigation = useNavigation();
-  const [cast, setCast] = useState([1,2,3,4,5]);
-  const [similarMovies, setSimilarMovies] = useState([1,2,3,4,5]);
+  const [cast, setCast] = useState([]);
+  const [similarMovies, setSimilarMovies] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [movie, setMovie] = useState({});
 
   const getMovieDetails = async (id) => {
-
+    const data = await fetchMovieDetails(id);
+    if(data) setMovie(data);
+    setLoading(false)
+  }
+  const getMovieCredits = async (id) => {
+    const data = await fetchMovieCredits(id);
+    if(data && data.cast){
+      setCast(data.cast);
+    }
+    setLoading(false)
+  }
+  const getSimilarMovies = async (id) => {
+    const data = await fetchSimilarMovies(id);
+    if(data && data.results) setSimilarMovies(data.results)
+    setLoading(false)
   }
 
   useEffect(() => {
-    setLoading(true)
-    getMovieDetails(item.id)
+    setLoading(true);
+    getMovieDetails(item.id);
+    getMovieCredits(item.id);
+    getSimilarMovies(item.id);
   },[item])
 
   return(
@@ -47,7 +63,7 @@ export default function MovieScreen() {
               <Loading />
             ):(
               <View>
-                <Image source={require('../assets/images/moviePoster2.png')} style={{width, height: height*0.55}} />
+                <Image source={{uri: image500(movie?.poster_path) || fallbackMoviePoster}} style={{width, height: height*0.55}} />
                 <LinearGradient
                   colors={['transparent', 'rgba(23, 23, 23, 0.8)', 'rgba(23, 23, 23, 1)']}
                   style={{width, height: height*0.40, position: "absolute", bottom: 0}}
@@ -60,16 +76,25 @@ export default function MovieScreen() {
           
         </View>
         <View style={{marginTop: -(height*0.09), gap: 12}}>
-          <Text style={tw`text-white text-center text-3xl font-bold`}>{movieName}</Text>
-          <Text style={tw`text-neutral-400 font-semibold text-base text-center`}>Released • 2023 • 170 min</Text>
+          <Text style={tw`text-white text-center text-3xl font-bold`}>{movie?.title}</Text>
+          {movie?.id ? (
+            <Text style={tw`text-neutral-400 font-semibold text-base text-center`}>
+              {movie?.status} • {movie?.release_date?.split('-')[0]} • {movie?.runtime} min
+            </Text>
+          ) : null}
           <View style={tw`flex-row justify-center mx-4 space-x-2`}>
-            <Text style={tw`text-neutral-400 font-semibold text-base text-center`}>Action • </Text>
-            <Text style={tw`text-neutral-400 font-semibold text-base text-center`}>Thrill • </Text>
-            <Text style={tw`text-neutral-400 font-semibold text-base text-center`}>Comedy</Text>
+            {
+              movie?.genres?.map((genre, index) => {
+                let showDot = index+1 != movie.genres.length;
+                return(
+                  <Text key={index} style={tw`text-neutral-400 font-semibold text-base text-center`}>
+                    {genre?.name} {showDot ? "• " : null}
+                  </Text>
+                )
+              })
+            }
           </View>
-          <Text style={tw`text-neutral-400 mx-4`}>
-            Super-Hero partners Scott Lang and Hope van Dyne, along with with Hope's parents Janet van Dyne and Hank Pym, and Scott's daughter Cassie Lang, find themselves exploring the Quantum Realm, interacting with strange new creatures and embarking on an adventure that will push them beyond the limits of what they thought possible.
-          </Text>
+          <Text style={tw`text-neutral-400 mx-4`}>{movie?.overview}</Text>
         </View>
         <Cast navigation={navigation} cast={cast} />
         <MovieList title="Similar Movies" hideSeeAll={true} data={similarMovies} />
