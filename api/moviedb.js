@@ -14,6 +14,9 @@ const movieDetailsEndpoint = id=> `${apiBaseUrl}/movie/${id}?api_key=${apiKey}`;
 const movieCreditsEndpoint = id=> `${apiBaseUrl}/movie/${id}/credits?api_key=${apiKey}`;
 const similarMoviesEndpoint = id=> `${apiBaseUrl}/movie/${id}/similar?api_key=${apiKey}`;
 
+const personDetailsEndpoint = id=> `${apiBaseUrl}/person/${id}?api_key=${apiKey}`;
+const personMoviesEndpoint = id=> `${apiBaseUrl}/person/${id}/movie_credits?api_key=${apiKey}`;
+
 export const fetchTrendingMovies = async () => {
     const options = {
         method: 'GET',
@@ -111,6 +114,41 @@ export const fetchSimilarMovies = async (id) => {
 
     try {
         const response = await axios(similarMoviesEndpoint(id), options)
+        return response.data;
+    } catch (error) {
+        console.log('error: ', error);
+        return{}
+    }
+}
+
+export const fetchPersonDetails = async (id) => {
+    const options = {
+        method: 'GET',
+        headers: {
+          accept: 'application/json',
+          Authorization: `Bearer ${apiKey}`
+        }
+    };
+
+    try {
+        const response = await axios(personDetailsEndpoint(id), options)
+        return response.data;
+    } catch (error) {
+        console.log('error: ', error);
+        return{}
+    }
+}
+export const fetchPersonMovies = async (id) => {
+    const options = {
+        method: 'GET',
+        headers: {
+          accept: 'application/json',
+          Authorization: `Bearer ${apiKey}`
+        }
+    };
+
+    try {
+        const response = await axios(fetchPersonMovies(id), options)
         return response.data;
     } catch (error) {
         console.log('error: ', error);
