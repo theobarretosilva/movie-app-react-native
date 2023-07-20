@@ -50,7 +50,7 @@ export default function SearchScreen() {
                         <Loading />
                     ):(
                         results.length>0 ? (
-                            <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={{paddingHorizontal: 15}} style={tw`space-y-3`}>
+                            <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={{paddingHorizontal: 15}}>
                                 <Text style={tw`text-white font-semibold ml-1 pb-3`}>Results ({results.length})</Text>
                                 <View style={tw`flex-row justify-between flex-wrap`}>
                                     {

@@ -38,7 +38,7 @@ export default function AllMoviesScreen() {
                     <Loading />
                 ):(
                     results.length>0 ? (
-                        <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={{paddingHorizontal: 15}} style={tw`space-y-3`}>
+                        <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={{paddingHorizontal: 15}}>
                             <View style={tw`flex-row justify-between flex-wrap`}>
                                 {
                                     results.map((item, index) => {

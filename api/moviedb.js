@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const apiKey = 'eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIzMjUyYWRiOGE3NjdhZGZkZmUyYjliNDRjMDBiMTU2MCIsInN1YiI6IjY0YjgzNjkyMjdkYjYxMDEzOTA4MTY5NCIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.D0RA3czyUykNX0g66iewPqjFDinbuzx80u4hYbaozu0';
+const apiKey = {/* your api key */};
 const apiBaseUrl = 'https://api.themoviedb.org/3';
 
 export const image500 = posterPath => posterPath ? 'https://image.tmdb.org/t/p/w500'+posterPath : null;
