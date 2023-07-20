@@ -2,6 +2,7 @@ import { Image, ScrollView, Text, TouchableOpacity, View } from 'react-native';
 import tw from 'twrnc'
 import { TouchableWithoutFeedback } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
+import { fallbackMoviePoster, image185 } from '../api/moviedb';
 
 export default function MovieList({title, data, hideSeeAll}) {
     let movieName = 'Ant-Man and the Wasp: Quantumia';
@@ -26,10 +27,10 @@ export default function MovieList({title, data, hideSeeAll}) {
                     return(
                         <TouchableWithoutFeedback key={index} onPress={() => navigation.push('Movie', item)}>
                             <View style={{marginTop: 16, marginRight: 16}}>
-                                <Image source={require('../assets/images/moviePoster2.png')} style={{borderRadius: 24, width: 140, height: 230}} />
+                                <Image source={{uri: image185(item.poster_path) || fallbackMoviePoster}} style={{borderRadius: 24, width: 140, height: 230}} />
                                 <Text style={tw`text-neutral-300 ml-1`}>
                                     {
-                                        movieName.length>14 ? movieName.slice(0, 17)+'...' : movieName
+                                        item.title.length>14 ? item.title.slice(0, 17)+'...' : item.title
                                     }
                                 </Text>
                             </View>

@@ -8,26 +8,42 @@ import TrendingMovies from "../components/trendingMovies";
 import MovieList from "../components/movieList";
 import { useNavigation } from "@react-navigation/native";
 import Loading from "../components/loading";
-import { fetchTrendingMovies } from '../api/moviedb'
+import { fetchTopRatedMovies, fetchTrendingMovies, fetchUpcomingMovies } from '../api/moviedb'
 
 const ios = Platform.OS == 'ios';
 
 export default function HomeScreen() {
-    const [trending, setTrending] = useState([1, 2, 3]);
-    const [upcoming, setUpcoming] = useState([1, 2, 3]);
-    const [topRated, setTopRated] = useState([1, 2, 3]);
+    const [trending, setTrending] = useState([]);
+    const [upcoming, setUpcoming] = useState([]);
+    const [topRated, setTopRated] = useState([]);
     const [loading, setLoading] = useState(true);
     const navigation = useNavigation();
 
     const getTrendingMovies = async () => {
         const data = await fetchTrendingMovies();
-        console.log("got trending movies: ", data);
+        // console.log("got trending movies: ", data);
         if(data && data.results) setTrending(data.results)
+        setLoading(false)
+    }
+
+    const getUpComingMovies = async () => {
+        const data = await fetchUpcomingMovies();
+        // console.log("got up coming movies: ", data);
+        if(data && data.results) setUpcoming(data.results)
+        setLoading(false)
+    }
+
+    const getTopRatedMovies = async () => {
+        const data = await fetchTopRatedMovies();
+        // console.log("got top rated movies: ", data);
+        if(data && data.results) setTopRated(data.results)
         setLoading(false)
     }
 
     useEffect(() => {
         getTrendingMovies();
+        getUpComingMovies();
+        getTopRatedMovies();
     },[])
 
     return(

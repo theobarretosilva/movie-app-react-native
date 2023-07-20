@@ -8,6 +8,7 @@ import MovieList from '../components/movieList'
 import tw from 'twrnc'
 import Cast from '../components/cast';
 import Loading from '../components/loading';
+import { fetchMovieDetails } from '../api/moviedb';
 
 var {width, height} = Dimensions.get('window');
 
@@ -20,8 +21,13 @@ export default function MovieScreen() {
   const [similarMovies, setSimilarMovies] = useState([1,2,3,4,5]);
   const [loading, setLoading] = useState(false);
 
-  useEffect(() => {
+  const getMovieDetails = async (id) => {
 
+  }
+
+  useEffect(() => {
+    setLoading(true)
+    getMovieDetails(item.id)
   },[item])
 
   return(
