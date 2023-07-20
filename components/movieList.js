@@ -4,21 +4,13 @@ import { TouchableWithoutFeedback } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { fallbackMoviePoster, image185 } from '../api/moviedb';
 
-export default function MovieList({title, data, hideSeeAll}) {
+export default function MovieList({title, data}) {
     const navigation = useNavigation();
 
     return(
       <View style={tw`mb-8`}>
         <View style={tw`mx-4 flex-row justify-between items-center`}>
             <Text style={tw`text-white text-xl`}>{title}</Text>
-            {
-                !hideSeeAll && (
-                    <TouchableOpacity>
-                        <Text style={{color: '#eab308', fontSize: 18, lineHeight: 28}}>See all</Text>
-                    </TouchableOpacity>
-                )
-            }
-            
         </View>
         <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={{paddingHorizontal: 15}}>
             {   

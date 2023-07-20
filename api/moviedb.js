@@ -17,8 +17,6 @@ const similarMoviesEndpoint = id=> `${apiBaseUrl}/movie/${id}/similar?api_key=${
 const personDetailsEndpoint = id=> `${apiBaseUrl}/person/${id}?api_key=${apiKey}`;
 const personMoviesEndpoint = id=> `${apiBaseUrl}/person/${id}/movie_credits?api_key=${apiKey}`;
 
-const searchMoviesEndpoint = value => `${apiBaseUrl}/search/movie?query=${value}api_key=${apiKey}`;
-
 export const fetchTrendingMovies = async () => {
     const options = {
         method: 'GET',
@@ -169,6 +167,41 @@ export const fetchSearchMovies = async (value) => {
 
     try {
         const response = await axios(`https://api.themoviedb.org/3/search/movie?query=${value}`, options)
+        return response.data;
+    } catch (error) {
+        console.log('error: ', error);
+        return{}
+    }
+}
+
+export const fetchMovieGenres = async () => {
+    const options = {
+        method: 'GET',
+        headers: {
+          accept: 'application/json',
+          Authorization: `Bearer ${apiKey}`
+        }
+    };
+
+    try {
+        const response = await axios(`https://api.themoviedb.org/3/genre/movie/list`, options)
+        return response.data;
+    } catch (error) {
+        console.log('error: ', error);
+        return{}
+    }
+}
+export const fetchMoviesByGenre = async (genreId) => {
+    const options = {
+        method: 'GET',
+        headers: {
+          accept: 'application/json',
+          Authorization: `Bearer ${apiKey}`
+        }
+    };
+
+    try {
+        const response = await axios(`https://api.themoviedb.org/3/discover/movie?api_key=${apiKey}&with_genres=${genreId}`, options)
         return response.data;
     } catch (error) {
         console.log('error: ', error);

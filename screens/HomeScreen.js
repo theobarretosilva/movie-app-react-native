@@ -22,7 +22,6 @@ export default function HomeScreen() {
     const getTrendingMovies = async () => {
         const data = await fetchTrendingMovies();
         if(data && data.results) setTrending(data.results)
-        setLoading(false)
     }
 
     const getUpComingMovies = async () => {
@@ -48,7 +47,9 @@ export default function HomeScreen() {
             <SafeAreaView style={ios ? tw`-mb-2` : tw`mb-3`}>
                 <StatusBar style="light" />
                 <View style={tw`flex-row justify-between items-center mx-4`}>
-                    <Bars3CenterLeftIcon size="30" strokeWidth={2} color="white" />
+                    <TouchableOpacity onPress={() => navigation.navigate('Genres')}>
+                        <Bars3CenterLeftIcon size="30" strokeWidth={2} color="white" />
+                    </TouchableOpacity>
                     <Text style={tw`text-white text-3xl font-bold`}><Text style={styles.text}>M</Text>ovies</Text>
                     <TouchableOpacity onPress={() => navigation.navigate('Search')}>
                         <MagnifyingGlassIcon size="30" strokeWidth={2} color="white" />
