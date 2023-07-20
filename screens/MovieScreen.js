@@ -82,7 +82,7 @@ export default function MovieScreen() {
               {movie?.status} • {movie?.release_date?.split('-')[0]} • {movie?.runtime} min
             </Text>
           ) : null}
-          <View style={tw`flex-row justify-center mx-4 space-x-2`}>
+          <View style={tw`flex-row justify-center mx-4`}>
             {
               movie?.genres?.map((genre, index) => {
                 let showDot = index+1 != movie.genres.length;

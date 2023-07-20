@@ -5,11 +5,10 @@ import { useNavigation } from '@react-navigation/native';
 import { fallbackMoviePoster, image185 } from '../api/moviedb';
 
 export default function MovieList({title, data, hideSeeAll}) {
-    let movieName = 'Ant-Man and the Wasp: Quantumia';
     const navigation = useNavigation();
 
     return(
-      <View style={tw`mb-8 space-y-4`}>
+      <View style={tw`mb-8`}>
         <View style={tw`mx-4 flex-row justify-between items-center`}>
             <Text style={tw`text-white text-xl`}>{title}</Text>
             {

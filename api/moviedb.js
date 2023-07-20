@@ -17,6 +17,8 @@ const similarMoviesEndpoint = id=> `${apiBaseUrl}/movie/${id}/similar?api_key=${
 const personDetailsEndpoint = id=> `${apiBaseUrl}/person/${id}?api_key=${apiKey}`;
 const personMoviesEndpoint = id=> `${apiBaseUrl}/person/${id}/movie_credits?api_key=${apiKey}`;
 
+const searchMoviesEndpoint = value => `${apiBaseUrl}/search/movie?query=${value}api_key=${apiKey}`;
+
 export const fetchTrendingMovies = async () => {
     const options = {
         method: 'GET',
@@ -149,6 +151,24 @@ export const fetchPersonMovies = async (id) => {
 
     try {
         const response = await axios(personMoviesEndpoint(id), options)
+        return response.data;
+    } catch (error) {
+        console.log('error: ', error);
+        return{}
+    }
+}
+
+export const fetchSearchMovies = async (value) => {
+    const options = {
+        method: 'GET',
+        headers: {
+          accept: 'application/json',
+          Authorization: `Bearer ${apiKey}`
+        }
+    };
+
+    try {
+        const response = await axios(`https://api.themoviedb.org/3/search/movie?query=${value}`, options)
         return response.data;
     } catch (error) {
         console.log('error: ', error);
