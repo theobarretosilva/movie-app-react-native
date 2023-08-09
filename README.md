@@ -1,6 +1,6 @@
 # Movie App React Native
 
-This repository contains the source code for a movie app developed using React Native. The app allows users to explore a wide range of movies, view details about each movie, and watch trailers.
+This repository contains the source code for a movie app developed using React Native. The app allows users to explore a wide range of movies and view details about each movie.
 
 ## Features
 
